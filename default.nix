@@ -1,30 +1,26 @@
-{ stdenv, bundlerEnv, fetchFromGitHub, makeWrapper, ruby }:
-config:
+{ python3Packages, fetchFromGitHub }:
 
-let
-  gems = bundlerEnv {
-    name = "norminette-gems";
-    gemdir = ./gemdir;
-  };
-in stdenv.mkDerivation {
+python3Packages.buildPythonApplication {
   pname = "norminette";
-  version = "20200408";
+  version = "3.1.2";
 
   src = fetchFromGitHub {
-    owner = "42Paris";
+    owner = "42School";
     repo = "norminette";
-    rev = "24e7407551b3a2ae8fe5253e9186d21d897689a1";
-    sha256 = "sha256-SroBalIsgDqg1EhLJIclmRCNp896ds3nxT70zPZlWZY=";
+    rev = "5e4fafc9faf2c6608a8806e8a82653c2dee9f3ce";
+    sha256 = "I63uJs3IWU8Cr0FKaSstItVC+hX9LG/b0Sln9pLty/g=";
   };
 
-  buildInputs = [ makeWrapper ];
+  patchPhase = ''
+    # Since python 3.2, argparse is part of the python standard library.
+    echo > requirements.txt
 
-  installPhase = ''
-    mkdir -p $out/{bin,lib}
-
-    cp norminette.rb $out/lib
-    ln -s ${config} $out/lib/config.conf
-    makeWrapper ${gems}/bin/bundle $out/bin/norminette \
-      --add-flags "exec ${ruby}/bin/ruby $out/lib/norminette.rb"
+    # And, is it really necessary to run pip install inside setup.py ?
+    sed -i '/pip install -r requirements.txt/d' setup.py
   '';
+
+  # Needed because they need to import pkg_resources.
+  propagatedBuildInputs = [ python3Packages.setuptools ];
+
+  doCheck = false;
 }
