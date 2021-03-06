@@ -1,14 +1,14 @@
 { python3Packages, fetchFromGitHub }:
 
-python3Packages.buildPythonApplication {
+python3Packages.buildPythonApplication rec {
   pname = "norminette";
-  version = "3.1.2";
+  version = "3.1.3";
 
   src = fetchFromGitHub {
     owner = "42School";
     repo = "norminette";
-    rev = "5e4fafc9faf2c6608a8806e8a82653c2dee9f3ce";
-    sha256 = "I63uJs3IWU8Cr0FKaSstItVC+hX9LG/b0Sln9pLty/g=";
+    rev = "${version}";
+    sha256 = "N42Xz2JQ6/Wx3kvde4o+QyxjUpuYE2gvt2BwCteqQfw=";
   };
 
   patchPhase = ''
