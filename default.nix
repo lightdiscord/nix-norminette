@@ -2,13 +2,13 @@
 
 python3Packages.buildPythonApplication rec {
   pname = "norminette";
-  version = "3.2.3";
+  version = "3.2.6";
 
   src = fetchFromGitHub {
     owner = "42School";
     repo = "norminette";
     rev = "${version}";
-    sha256 = "uYQ7UpOWwPosAJGQzFRNcbAZ4Lcu8CyKN9p9v+crcyE=";
+    sha256 = "G0tzFrlJffdUEbwm7xpeFa8J/nZkaqF6YHGHIACEOsk=";
   };
 
   doCheck = false;
